@@ -10,7 +10,7 @@
 #  updated_at :datetime         not null
 #
 
-class ShortenedURL < ActiveRecord::Base
+class ShortenedUrl < ActiveRecord::Base
   validates :long_url, :short_url, :user_id, presence: true
   validates :short_url, uniqueness: true
 
@@ -20,10 +20,10 @@ class ShortenedURL < ActiveRecord::Base
     foreign_key: :user_id
 
   def self.make_entry(user, long_url)
-    ShortenedURL.create!(
+    ShortenedUrl.create!(
       user_id: user.id,
       long_url: long_url,
-      short_url: ShortenedURL.random_code
+      short_url: ShortenedUrl.random_code
     )
   end
 
