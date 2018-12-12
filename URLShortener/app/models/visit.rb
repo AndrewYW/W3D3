@@ -1,5 +1,4 @@
-class Visit < ActiveRecord::Base
-
+class Visit < ApplicationRecord
   validates :visitor, :shortened_url, presence: true
 
   belongs_to :shortened_url,

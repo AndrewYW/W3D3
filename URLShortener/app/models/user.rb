@@ -8,7 +8,7 @@
 #  updated_at :datetime         not null
 #
 
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   validates :email, uniqueness: true, presence: true
 
   has_many :visits,
@@ -17,6 +17,7 @@ class User < ActiveRecord::Base
     primary_key: :id
 
   has_many :visited_urls,
+    -> {distinct},
     through: :visits, source: :shortened_url
 
 end

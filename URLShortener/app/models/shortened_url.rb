@@ -10,7 +10,7 @@
 #  updated_at :datetime         not null
 #
 
-class ShortenedUrl < ActiveRecord::Base
+class ShortenedUrl < ApplicationRecord
   validates :long_url, :short_url, :user_id, presence: true
   validates :short_url, uniqueness: true
 
@@ -26,6 +26,7 @@ class ShortenedUrl < ActiveRecord::Base
     dependent: destroy
 
   has_many :visitors,
+    -> {distinct},
     through: :visits, source: :visitor
 
 
@@ -48,7 +49,7 @@ class ShortenedUrl < ActiveRecord::Base
   end
 
   def num_uniques
-    visits.select('user_id').distinct.count
+    visitors.count
   end
 
   def num_recent_uniques
