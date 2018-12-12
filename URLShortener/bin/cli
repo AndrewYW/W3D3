@@ -1,0 +1,18 @@
+#!/usr/bin/env ruby
+
+
+class CLI
+
+  def run
+  #login, ask for email
+  #takes in string, maybe raise error?
+
+  #ask for what to do: (create, visit)
+  #takes in int
+  end
+  
+  
+  
+end
+
+CLI.new.run
