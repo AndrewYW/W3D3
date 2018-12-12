@@ -19,6 +19,16 @@ class ShortenedUrl < ActiveRecord::Base
     primary_key: :id,
     foreign_key: :user_id
 
+  has_many :visits,
+    class_name: :Visit,
+    primary_key: :id,
+    foreign_key: :shortened_url_id,
+    dependent: destroy
+
+  has_many :visitors,
+    through: :visits, source: :visitor
+
+
   def self.make_entry(user, long_url)
     ShortenedUrl.create!(
       user_id: user.id,
@@ -32,4 +42,6 @@ class ShortenedUrl < ActiveRecord::Base
     code = SecureRandom.urlsafe_base64 while ShortenedUrl.exists?(short_url: code)
     return code
   end
+
+  
 end
