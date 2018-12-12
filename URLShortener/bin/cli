@@ -3,15 +3,57 @@
 
 class CLI
 
+  def login
+    puts "Input your email:"
+    @user = User.find_by(email: gets.chomp)
+
+    raise 'Login error' if @user.nil?
+  end
+
   def run
   #login, ask for email
   #takes in string, maybe raise error?
 
   #ask for what to do: (create, visit)
   #takes in int
+
+    login
+    puts 'What do you want to do?'
+    puts '0. Create shortened URL'
+    puts '1. Visit shortened URL'
+
+    case gets.chomp
+    when 0
+      create_url
+    when 1
+      visit_url
+    else
+      puts 'Wrong input'
+    end
+    puts 'Goodbye!'
+
   end
   
-  
+  def create_url
+    puts 'Type in your long url'
+    long_url = gets.chomp
+
+    short_url = ShortenedUrl.make_entry(@user, long_url)
+
+    puts "Short url is: #{short_url.short_url}"
+  end
+
+  def visit_url
+    puts 'Type in the shortened URL'
+    short_url = gets.chomp
+
+    shortened_url = ShortenedUrl.find_by(short_url: short_url)
+
+    raise 'Invalid short url' if shortened_url.nil?
+
+    Visit.record_visit!(@user, shortened_url)
+    Launchy.open(shortened_url.long_url)
+  end
   
 end
 
